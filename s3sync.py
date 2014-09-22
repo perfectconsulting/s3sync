@@ -88,7 +88,7 @@ def commit_log(logfilename, position = None):
 
     logfile.close()
 
-def cloud_with_prefix(bucket, cloud = None, metadata = False):
+def cloud_with_prefix(bucket, cloud = None):
     if cloud == None:
         return
 
