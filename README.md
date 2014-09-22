@@ -4,10 +4,11 @@ a command line Amazon S3 file/folder synchronization utility.
 
 Syntax
 ======
-s3sync.py -s secretaccesskey -b bucket name -c cloud path -l local path -d [upload|download] [-logfile log filename] [-maxactions n] [-md5] [-dryrun] [-delete]
+s3sync.py -k awsacesskeyid -s awssecretaccesskey -b bucket name -c cloud path -l local path -d [upload|download] [-logfile log filename] [-maxactions n] [-md5] [-dryrun] [-delete]
 
 Usage
 =====
+-k ,--awsaccesskeyid , AWS Access Key ID
 -s, --awssecretaccesskey , AWS Secret Access Key  
 -b, --bucketname, AWS Bucket Name  
 -c, --cloudpath, AWS cloud path  
@@ -16,8 +17,8 @@ Usage
 --logfile , log file name  
 --maxactions, maximum number of actions  
 --md5, enable md5 hash file checking  
---dryrun, enable dryrun')  
---delete, enable file deletion')  
+--dryrun, enable dryrun'  
+--delete, enable file deletion'  
 
 Example
 =======
