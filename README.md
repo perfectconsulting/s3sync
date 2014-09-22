@@ -11,7 +11,7 @@ Usage
 -s, --awssecretaccesskey , AWS Secret Access Key
 -b, --bucketname, AWS Bucket Name
 -c, --cloudpath, AWS cloud path
--l,--localpath, local path
+-l,--localpath, local pathd
 -d, --direction, transfer direction (upload, download)
 --logfile , log file name
 --maxactions, maximum number of actions
