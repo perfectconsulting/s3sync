@@ -142,8 +142,6 @@ def generate_actions(source, destination, direction, actions = None, maxactions 
                 else:
                     if md5:
                         if calculatemd5(source, key) != calculatemd5(destination, key):
-                        #hash = hashlib.md5(open(localpath + key,'rb').read()).hexdigest()
-                        #if destination[key].etag[1:-1] != hash:
                             actions.append(ActionTuple(operation=direction, object=key, param=None, reason='different md5'))
 
                 del(destination[key])
