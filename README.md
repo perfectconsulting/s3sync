@@ -8,16 +8,16 @@ s3sync.py -s secretaccesskey -b bucket name -c cloud path -l localpath -d [uploa
 
 Usage
 =====
--s, --awssecretaccesskey , AWS Secret Access Key.
--b, --bucketname, AWS Bucket Name.
--c, --cloudpath, AWS cloud path.
--l,--localpath, local path.
--d, --direction, transfer direction (upload, download)
---logfile , log file name
---maxactions, maximum number of actions
---md5, enable md5 hash file checking
---dryrun, enable dryrun')
---delete, enable file deletion')
+-s, --awssecretaccesskey , AWS Secret Access Key  
+-b, --bucketname, AWS Bucket Name  
+-c, --cloudpath, AWS cloud path  
+-l,--localpath, local path  
+-d, --direction, transfer direction (upload, download)  
+--logfile , log file name  
+--maxactions, maximum number of actions  
+--md5, enable md5 hash file checking  
+--dryrun, enable dryrun')  
+--delete, enable file deletion')  
 
 Example
 =======
