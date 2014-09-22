@@ -21,4 +21,4 @@ Usage
 
 Example
 =======
-88s3sync.py -k AFIAKP0IQFWOEFCYAYEA -s JusNeBKWC/K6lUEeQiXg+nTPnnwxCXUT+CuIQ9C -b testbucket -c Backup -l /media/Backup -d upload --logfile /media/Backup/s3.log --maxactions 100
+s3sync.py -k AFIAKP0IQFWOEFCYAYEA -s JusNeBKWC/K6lUEeQiXg+nTPnnwxCXUT+CuIQ9C -b testbucket -c Backup -l /media/Backup -d upload --logfile /media/Backup/s3.log --maxactions 100
