@@ -1,6 +1,6 @@
 S3Sync
 ======
-a command line Amazon S3 file/folder synchronization utility.
+a command line Amazon S3 file/folder synchronization utility. I have included the (older) ruby version just for reference.
 
 Syntax
 ======
