@@ -61,7 +61,7 @@ def log_event(text):
     console_only_log_event(text)
 
 def commit_log(logfilename, position = None):
-    if logfilename == '': return
+    if logfilename == '' or logfilename is none: return
     if position == 'top':
         if os.path.exists(logfilename):
             tempfilename = os.path.dirname(logfilename) + os.pathsep +  "log.tmp"
