@@ -22,7 +22,7 @@ import time
 #import dateutil.parser
 import hashlib
 
-THIS_VERSION = "1.1.2"
+__version__ = "1.1.2"
 RULER = "--------------------------------------------------------------------------------"
 
 log = []
@@ -248,7 +248,7 @@ def perform_actions(bucket, actions, localpath, cloudpath, errors = None, dryrun
                 except:
                     metrics['errors'] = metrics['errors'] + 1
 
-console_only_log_event("Amazon S3 Synchroniser %s" % THIS_VERSION)
+console_only_log_event("Amazon S3 Synchroniser %s" % __version__)
 console_only_log_event("Copyright 2014 S. J. Consulting Ltd. All rights reserved")
 
 parser = argparse.ArgumentParser()
