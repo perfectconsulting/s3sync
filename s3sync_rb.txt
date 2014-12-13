@@ -298,9 +298,6 @@ end
 console_only_log_event("Amazon S3 Synchroniser #{THIS_VERSION}")
 console_only_log_event("Copyright 2013 S. J. Consulting Ltd. All rights reserved")
 
-#ARGV = ["-k", "AKIAJPJIQXPOAFCHAYQA", "-s", "TJvNeBUxC/K6lOX7eQiXg+nTPnnwxCXUT+CuIQ9C", "-b", "galvanisedbucket", "-c", "Test", "-l", "c:/Temp/s3", "-d", "upload", "--logfile", "s3.log", "--maxactions", "10"]
-#ARGV = ["-k", "AKIAJPJIQXPOAFCHAYQA", "-s", "TJvNeBUxC/K6lOX7eQiXg+nTPnnwxCXUT+CuIQ9C", "-b", "galvanisedbucket", "-c", "Backup", "-l", "M:/Backup", "-d", "upload", "--logfile", "s3.log", "--dryrun","--maxactions", "2", "--md5"]
-
 options = {:awsaccesskeyid => nil,:awssecretaccesskey =>nil,:bucketname => nil, :direction => nil, :dryrun => false, :maxactions => 0, :maxretries => 0, :md5 => false}
 
 optparse = OptionParser.new do|opts|
