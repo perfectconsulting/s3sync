@@ -61,7 +61,7 @@ def log_event(text):
     console_only_log_event(text)
 
 def commit_log(logfilename, position = None):
-    if logfilename == '': return
+    if logfilename == '' or logfilename == None : return
     if position == 'top':
         if os.path.exists(logfilename):
             tempfilename = os.path.dirname(logfilename) + os.pathsep +  "log.tmp"
@@ -321,4 +321,4 @@ conn.close()
 log_event("%s uploads, %s downloads, %s deletes, %s errors" % (metrics['uploads'], metrics['downloads'], metrics['deletes'], metrics['errors']))
 log_event(RULER)
 
-commit_log(options.logfile, 'top')
+commit_log(o
