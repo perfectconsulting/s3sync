@@ -1,4 +1,4 @@
-# Copyright 2011-2013 S J Consulting Ltd. All Rights Reserved.
+# Copyright 2011-2015 S J Consulting Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"). You
 # may not use this file except in compliance with the License. A copy of
@@ -22,7 +22,7 @@ import time
 #import dateutil.parser
 import hashlib
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 RULER = "--------------------------------------------------------------------------------"
 
 log = []
@@ -61,7 +61,7 @@ def log_event(text):
     console_only_log_event(text)
 
 def commit_log(logfilename, position = None):
-    if logfilename == '' or logfilename is none: return
+    if logfilename == '': return
     if position == 'top':
         if os.path.exists(logfilename):
             tempfilename = os.path.dirname(logfilename) + os.pathsep +  "log.tmp"
@@ -142,6 +142,8 @@ def generate_actions(source, destination, direction, actions = None, maxactions 
                 else:
                     if md5:
                         if calculatemd5(source, key) != calculatemd5(destination, key):
+                        #hash = hashlib.md5(open(localpath + key,'rb').read()).hexdigest()
+                        #if destination[key].etag[1:-1] != hash:
                             actions.append(ActionTuple(operation=direction, object=key, param=None, reason='different md5'))
 
                 del(destination[key])
@@ -162,14 +164,12 @@ def generate_actions(source, destination, direction, actions = None, maxactions 
                 if len(actions) >= maxactions:
                     return
 
-def perform_actions(bucket, actions, localpath, cloudpath, errors = None, dryrun = False, maxretries = 3):
+def perform_actions(bucket, actions, localpath, cloudpath,  metrics = None, dryrun = False, maxretries = 3):
         if bucket == None or actions == None or localpath == '' or cloudpath == '':
             return
 
-        global metrics
-
-        if errors == None:
-            errors = {}
+        if metrics == None:
+            metrics ={'errors': 0, 'uploads': 0, 'downloads': 0, 'deletes': 0}
 
         for action in actions:
             cloud = cloudpath  + action.object
@@ -251,6 +251,9 @@ def perform_actions(bucket, actions, localpath, cloudpath, errors = None, dryrun
 console_only_log_event("Amazon S3 Synchroniser %s" % __version__)
 console_only_log_event("Copyright 2014 S. J. Consulting Ltd. All rights reserved")
 
+#ARGV = ["-k", "AKIAJPJIQXPOAFCHAYQA", "-s", "TJvNeBUxC/K6lOX7eQiXg+nTPnnwxCXUT+CuIQ9C", "-b", "galvanisedbucket", "-c", "Test", "-l", "c:/Temp/s3", "-d", "upload", "--logfile", "s3.log", "--maxactions", "10", "--md5", "--delete"]
+#ARGV = ["-k", "AKIAJPJIQXPOAFCHAYQA", "-s", "TJvNeBUxC/K6lOX7eQiXg+nTPnnwxCXUT+CuIQ9C", "-b", "galvanisedbucket", "-c", "Backup", "-l", "M:/Backup", "-d", "upload", "--logfile", "s3.log", "--maxactions", "10", "--delete", "--dryrun"]
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-k','--awsaccesskeyid', help='AWS Access Key ID', required=True)
@@ -312,8 +315,7 @@ else:
 #print "actions"
 #pprint.pprint( actions)
 
-errors = {}
-perform_actions(bucket,actions,options.localpath, options.cloudpath, errors, dryrun=options.dryrun)
+perform_actions(bucket,actions,options.localpath, options.cloudpath, metrics, dryrun=options.dryrun)
 conn.close()
 
 log_event("%s uploads, %s downloads, %s deletes, %s errors" % (metrics['uploads'], metrics['downloads'], metrics['deletes'], metrics['errors']))
