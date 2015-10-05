@@ -164,7 +164,7 @@ def generate_actions(source, destination, direction, actions = None, maxactions 
                 if len(actions) >= maxactions:
                     return
 
-def perform_actions(bucket, actions, localpath, cloudpath,  metrics = None, dryrun = False, maxretries = 3):
+def perform_actions(bucket, actions, localpath, cloudpath,  metrics = None, dryrun = False, maxretries = 3, acl = None):
         if bucket == None or actions == None or localpath == '' or cloudpath == '':
             return
 
@@ -190,7 +190,8 @@ def perform_actions(bucket, actions, localpath, cloudpath,  metrics = None, dryr
 
                             obj.key = cloud
                             obj.set_contents_from_filename(local)
-
+                            if(acl != None):
+                                obj.set_acl(acl)
                         break
                     except:
                         operation = 're-' + action.operation
@@ -251,9 +252,6 @@ def perform_actions(bucket, actions, localpath, cloudpath,  metrics = None, dryr
 console_only_log_event("Amazon S3 Synchroniser %s" % __version__)
 console_only_log_event("Copyright 2014 S. J. Consulting Ltd. All rights reserved")
 
-#ARGV = ["-k", "AKIAJPJIQXPOAFCHAYQA", "-s", "TJvNeBUxC/K6lOX7eQiXg+nTPnnwxCXUT+CuIQ9C", "-b", "galvanisedbucket", "-c", "Test", "-l", "c:/Temp/s3", "-d", "upload", "--logfile", "s3.log", "--maxactions", "10", "--md5", "--delete"]
-#ARGV = ["-k", "AKIAJPJIQXPOAFCHAYQA", "-s", "TJvNeBUxC/K6lOX7eQiXg+nTPnnwxCXUT+CuIQ9C", "-b", "galvanisedbucket", "-c", "Backup", "-l", "M:/Backup", "-d", "upload", "--logfile", "s3.log", "--maxactions", "10", "--delete", "--dryrun"]
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-k','--awsaccesskeyid', help='AWS Access Key ID', required=True)
@@ -267,6 +265,7 @@ parser.add_argument('--maxactions', help='maximum number of actions', default=0,
 parser.add_argument('--md5', action='store_true', default=False, help='enable md5 hash file checking')
 parser.add_argument('--dryrun',action='store_true', default=False, help='enable dryrun')
 parser.add_argument('--delete', action='store_true', default=False, help='enable file deletion')
+parser.add_argument('-a','--acl', help="default acl")
 
 options = parser.parse_args()
 
@@ -281,6 +280,7 @@ console_only_log_event("maxactions=%s" % options.maxactions)
 console_only_log_event("md5=%s" % options.md5)
 console_only_log_event("dryrun=%s" % options.dryrun)
 console_only_log_event("delete=%s" % options.delete)
+console_only_log_event("acl=%s" % options.acl)
 
 conn = boto.connect_s3(options.awsaccesskeyid, options.awssecretaccesskey)
 bucket = conn.get_bucket(options.bucketname)
@@ -289,6 +289,12 @@ if bucket == None:
     console_only_log_event("Error: invalid bucket %s" % options.bucketname)
     conn.close()
     exit(0)
+
+if options.acl != None:
+    if not options.acl in boto.gs.acl.CannedACLStrings:
+        console_only_log_event("Error: invalid acl setting %s" % options.acl)
+        conn.close()
+        exit(0)
 
 metrics ={'errors': 0, 'uploads': 0, 'downloads': 0, 'deletes': 0}
 
@@ -315,7 +321,7 @@ else:
 #print "actions"
 #pprint.pprint( actions)
 
-perform_actions(bucket,actions,options.localpath, options.cloudpath, metrics, dryrun=options.dryrun)
+perform_actions(bucket,actions,options.localpath, options.cloudpath, metrics, dryrun=options.dryrun, acl=options.acl)
 conn.close()
 
 log_event("%s uploads, %s downloads, %s deletes, %s errors" % (metrics['uploads'], metrics['downloads'], metrics['deletes'], metrics['errors']))
